@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Apriori Algorithm</title>
+</head>
+<body>
+    <h2>Apriori Algorithm</h2>
+
+    <form method="POST">
+        <label>Minimum Support:</label>
+        <input type="number" name="min_support" value="2" required>
+
+        <br><br>
+    
+        <textarea name="data" rows="10" cols="50" placeholder="1,2,3
+    1,2
+    2,3"></textarea>
+    
+        <br><br>
+    
+        <button type="submit">Run Apriori</button>
+    </form>
+    
+    {% if result %}
+        <h3>Results:</h3>
+        <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>
