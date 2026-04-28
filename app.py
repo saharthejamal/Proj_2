@@ -8,9 +8,12 @@ def index():
     result = None
 
     if request.method == "POST":
-        data = request.form["data"]
+        uploaded_file = request.files["input_file"]
         min_support = int(request.form["min_support"])
-        result = run_apriori_from_text(data, min_support)
+
+        file_content = uploaded_file.read().decode("utf-8")
+
+        result = run_apriori_from_text(file_content, min_support)
 
     return render_template("index.html", result=result)
 
