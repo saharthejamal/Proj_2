@@ -1,28 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Apriori Algorithm</title>
+    <title>SJ Apriori Tool</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #e4ecf7);
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            width: 380px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="file"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 18px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #3a56d4;
+        }
+
+        .results {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fc;
+            border-radius: 8px;
+            border: 1px solid #e0e6f0;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 13px;
+        }
+    </style>
+
 </head>
 <body>
-    <h2>Apriori Algorithm</h2>
 
-    <form method="POST" enctype="multipart/form-data">
-        <label>Input file:</label>
-        <input type="file" name="input_file" required>
-    
-        <br><br>
-    
-        <label>Minimum Support:</label>
-        <input type="number" name="min_support" value="2" required>
-    
-        <br><br>
-    
-        <button type="submit">Run Apriori</button>
-    </form>
-    
-    {% if result %}
-        <h3>Results:</h3>
-        <pre>{{ result }}</pre>
-    {% endif %}
+    <div class="container">
+        <div class="card">
+
+            <h1>Apriori Runner</h1>
+            <div class="subtitle">Upload file and set support value</div>
+
+            <form method="POST" enctype="multipart/form-data">
+                
+                <label for="file">Input File</label>
+                <input type="file" id="file" name="input_file" required>
+
+                <label for="support">Minimum Support</label>
+                <input type="number" id="support" name="min_support" value="2" min="1" required>
+
+                <button type="submit">Run Algorithm</button>
+            </form>
+
+            {% if result %}
+                <div class="results">
+                    <h3>Results</h3>
+                    <pre>{{ result }}</pre>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
 </body>
 </html>
