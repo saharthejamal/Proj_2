@@ -2,17 +2,34 @@
 <html>
 <head>
     <title>Proj_2 SJ Apriori Algorithm</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+
+<div class="wrapper">
     <h2>Apriori Algorithm</h2>
 
     <form method="POST" enctype="multipart/form-data">
-        <label>Input file:</label>
+        <label>Input file:</label><br>
         <input type="file" name="input_file" required>
     
         <br><br>
     
-        <label>Minimum Support:</label>
+        <label>Minimum Support:</label><br>
         <input type="number" name="min_support" value="2" required>
     
         <br><br>
@@ -24,6 +41,7 @@
         <h3>Results:</h3>
         <pre>{{ result }}</pre>
     {% endif %}
+</div>
+
 </body>
 </html>
-
