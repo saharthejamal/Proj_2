@@ -13,6 +13,10 @@ def load_transactions(filename):
                 continue
 
             parts = line.split(",")
+
+            # Skip transaction ID in first column, if present.
+            parts = parts[1:]
+
             transaction = set()
 
             for item in parts:
@@ -92,8 +96,7 @@ def count_support(transactions, candidates):
 def apriori(transactions, min_support):
     all_frequent = []
 
-    L1 = find_frequent_1_itemsets(transactions, min_support)
-    current_frequent = L1
+    current_frequent = find_frequent_1_itemsets(transactions, min_support)
     k = 2
 
     while len(current_frequent) > 0:
@@ -123,9 +126,29 @@ def apriori(transactions, min_support):
     return all_frequent
 
 
+def remove_non_maximal_itemsets(frequent_itemsets):
+    maximal_itemsets = []
+
+    for itemset in frequent_itemsets:
+        is_subset = False
+
+        for other_itemset in frequent_itemsets:
+            if itemset != other_itemset and itemset.issubset(other_itemset):
+                is_subset = True
+                break
+
+        if not is_subset:
+            maximal_itemsets.append(itemset)
+
+    maximal_itemsets.sort(key=lambda x: (len(x), sorted(list(x))))
+
+    return maximal_itemsets
+
+
 def format_itemset(itemset):
     items = sorted(list(itemset))
     return "{ " + ", ".join(str(x) for x in items) + " }"
+
 
 def run_apriori_from_text(text, min_support):
     transactions = []
@@ -137,6 +160,10 @@ def run_apriori_from_text(text, min_support):
             continue
 
         parts = line.split(",")
+
+        # Skip transaction ID in first column, if present.
+        parts = parts[1:]
+
         transaction = set()
 
         for item in parts:
@@ -147,6 +174,7 @@ def run_apriori_from_text(text, min_support):
         transactions.append(transaction)
 
     frequent_itemsets = apriori(transactions, min_support)
+    frequent_itemsets = remove_non_maximal_itemsets(frequent_itemsets)
 
     output = []
     output.append("min_sup " + str(min_support))
@@ -158,6 +186,7 @@ def run_apriori_from_text(text, min_support):
 
     return "\n".join(output)
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", required=True, dest="input_file")
@@ -166,6 +195,7 @@ def main():
 
     transactions = load_transactions(args.input_file)
     frequent_itemsets = apriori(transactions, args.min_support)
+    frequent_itemsets = remove_non_maximal_itemsets(frequent_itemsets)
 
     print("inputfile", args.input_file)
     print("min_sup", args.min_support)
